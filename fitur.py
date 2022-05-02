@@ -142,3 +142,4 @@ def get_features(path, duration=2.5, offset=0.6):
     result = np.vstack((result, res3)) # stacking vertically
 
     return result
+

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>tes</title>
+	<link rel="stylesheet" type="text/css" href="lib\\style.css">
+    <link rel="stylesheet" href="lib\\bootsrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+    integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    
+    <style>
+      #overlay {
+        position: fixed;
+        display: none;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(142, 108, 108, 0.979);
+        z-index: 2;
+        cursor: pointer;
+      }
+      html, body {
+  height: 100%;
+}
+
+canvas {
+
+  height: 50%;
+  width: 100%;
+}
+
+h1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+}
+
+      </style>
+</head>
+<body class="auth-false">
+
+	
+	<div class="userAuth unauthenticated">
+		<form>
+      <img src="lib\\download.jpg" alt="" srcset="" style="	width: 310px;">
+      <BR></BR>
+			<input  data-toggle="modal" data-target="#loginModal" type="button"
+       class="tombol_login" value="Sign in">
+ 
+           
+           
+		</form>
+	</div>
+
+    <div class="userAuth authenticated ">
+      <button type="button" class="btn btn-danger" id="logout" style="float: right;position: relative;"
+      >Logout</button> 
+      <h5>Speech System</h5>
+      <h1 style="display: none;">Click to start</h1>
+      <canvas></canvas>
+      
+        <div class="kontak_login">
+          <button type="button" onclick="init()"  class="tombol_login" >Start Realtime</button>
+          <hr>
+          <p>Result realtime</p>
+          <hr>
+          <div id="label-container"></div>
+          <input type = "button" id = "mybutton2" value = "record"  class="tombol_login" />
+  
+          <form method="post" enctype="multipart/form-data">
+            <hr>
+            <input type="file" name="file" class="tombol_login" />
+            <hr>
+            <input type="submit" id="submitButton" value="prediction" class="tombol_login" />
+            <hr>
+          </form>
+            <p>Result Rec {{outp }}</p>
+            <p>Result File {{output }}</p>
+         
+            <hr>
+        </div>
+        </main>
+	
+	</div>
+
+
+<!-- Modal Register -->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="Register" aria-hidden="true"   >
+    <div class="modal-dialog">
+     <div class="modal-content"  >
+       <form id="registerForm" method="POST"  >
+    
+         <div class="modal-header">
+           <h4 class="modal-title" id="registerModalLabel">Register</h4>
+           <button  type="button" class="btn btn-default" data-dismiss="modal" ><span aria-hidden="true">&times;</span></button>
+         </div>
+    
+         <div class="modal-body">
+           <div class="form-group">
+             <label for="recipient-name" class="control-label">Nama</label>
+             <input type="text" class="form-control"id="t4_namauser_jsa_add">
+           </div>
+    
+    
+           <div class="form-group">
+             <label for="recipient-name" class="control-label">Email:</label>
+             <input type="text" class="form-control" id="registerEmail">
+         </div>
+    
+         <input class="form-control" type="text"  id="T4_add" style="display: none">
+           <input class="form-control" type="text" id="t4_user_jsa_add" style="display: none">
+           <input class="form-control"type="text" id="t4_nocus_jsa_add"  style="display: none">
+       
+    
+    
+           <div class="form-group">
+             <label for="message-text" class="control-label">Password:</label>
+             <input type="password" class="form-control" id="registerPassword">
+           </div>
+    
+           <div class="form-group">
+             <label for="message-text" class="control-label">Confirm Password:</label>
+             <input type="password" class="form-control" id="registerConfirmPassword">
+           </div>
+           
+           <div class="form-group">
+               <input type="text" class="form-control" id="myText" style="display: none" >
+             </div>
+    
+           <button id="submit_link"type="submit" name="button" style="display: none">Save</button> 
+     
+    
+        
+    
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+           <button type="submit" class="btn btn-primary" id="doRegister">Register</button>
+         </div>
+    
+       </form>
+     </div>
+    </div>
+    </div>
+<!-- Modal Login-->
+    <div   class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="Login" aria-hidden="true">
+    <div class="modal-dialog">
+     <div class="modal-content">
+       <form id="loginForm" method="POST">
+         <div class="modal-header">
+           <h4 class="modal-title" id="loginModalLabel">Login</h4>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+         </div>
+         <div class="modal-body">
+           <div class="form-group">
+             <label for="recipient-name" class="control-label">Email:</label>
+             <input type="text" class="form-control" id="loginEmail">
+           </div>
+           <div class="form-group">
+             <label for="message-text" class="control-label">Password:</label>
+             <input type="password" class="form-control" id="loginPassword">
+           </div>
+         </div>
+         <div class="modal-footer">
+         
+          <button  type="submit" class="btn btn-success" id="doLogin">Login</button>
+          <button type="submit" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#registerModal">Register</button>
+         
+        </div>
+       </form>
+     </div>
+    </div>
+    </div>
+<!-- Modal Update -->
+    <div class="modal fade" id="ModalUpdate" tabindex="-1" role="dialog" aria-labelledby="ModalUpdateLabel"
+    aria-hidden="true" >
+    <div class="modal-dialog" role="document" style="max-width: 100%;margin:0px" >
+    <div class="modal-content" style="background-color: transparent;width: 100%">
+    <div class="modal-body" style="height: 900px">
+    <div class="row " style="margin-bottom:20px" id="nav3">
+    
+    </div>
+    
+    
+    
+    
+    <input type="text" name="" id="t4_user_jsa" style="display: none">
+    
+    
+    
+    <form id="myForm" >
+      <h6 style="color:white" > <i class="fa fa-spinner fa-spin" style='color:white;position: relative;font-size: 16px'></i> Menunggu Pesanan</h6>
+    
+    
+     <h6 style="color:white" > Nama Pemesan</h6>
+     <input class="form-control " id="t4_namaclient_jsa" style="background-color: transparent;border-color: transparent;">
+    
+     <h6 style="color:white" > Nomer Pemesan</h6>
+     <input class="form-control" id="t4_nocus_jsa"style="background-color: transparent;border-color: transparent" >
+     <h6 style="color:white" > Koordinat</h6>
+     <input class="form-control" type="text" id="t4_latclient_jsa" style="background-color: transparent;border-color: transparent">
+     <input class="form-control"  type="text" id="t4_longclient_jsa"style="background-color: transparent;border-color: transparent" >
+    
+    </form>
+    <input class="form-control"type="text"id="t4_namauser_jsa" style="display: none">
+    <input class="form-control" type="text" id="T4" style="display: none">
+    <input class="form-control" type="text" id="t4_nouser_jsa"  style="display: none">
+    
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- Modal loading -->
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="Message" aria-hidden="true">
+    <div class="modal-dialog">
+     <div class="modal-content" >
+       <div class="modal-header">
+           <div style="width: 400px;height: 400px;">
+            <h4 class="modal-title" id="messageModalLabel">Message</h4>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-success" data-dismiss="modal" >tutup</button>
+             
+            </div>
+          </div>
+        
+
+       </div>
+    
+         <div class="pre-auth"></div>
+         <div class="post-auth"></div>
+        </div>
+    </div>
+    </div>
+  
+<script src="lib\\jquery-3.2.1.slim.min.js"></script>
+<script src="lib\\firebase.js"></script>
+<script src="lib\\bootstrap.min.js"></script>
+<script type="text/javascript">
+  const URL = "https://teachablemachine.withgoogle.com/models/dl5wsx1D4/";
+
+  async function createModel() {
+      const checkpointURL = URL + "model.json"; // model topology
+      const metadataURL = URL + "metadata.json"; // model metadata
+
+      const recognizer = speechCommands.create(
+          "BROWSER_FFT", // fourier transform type, not useful to change
+          undefined, // speech commands vocabulary feature, not useful for your models
+          checkpointURL,
+          metadataURL);
+
+      // check that model and metadata are loaded via HTTPS requests.
+      await recognizer.ensureModelLoaded();
+
+      return recognizer;
+  }
+
+  async function init() {
+      const recognizer = await createModel();
+      const classLabels = recognizer.wordLabels(); // get class labels
+      const labelContainer = document.getElementById("label-container");
+      for (let i = 0; i < classLabels.length; i++) {
+          labelContainer.appendChild(document.createElement("div"));
+      }
+
+      // listen() takes two arguments:
+      // 1. A callback function that is invoked anytime a word is recognized.
+      // 2. A configuration object with adjustable fields
+      recognizer.listen(result => {
+          const scores = result.scores; // probability of prediction for each class
+          // render the probability scores per class
+          for (let i = 0; i < classLabels.length; i++) {
+              const classPrediction = classLabels[i] + ": " + result.scores[i].toFixed(2)*100 +"%";
+              labelContainer.childNodes[i].innerHTML = classPrediction;
+          }
+      }, {
+          includeSpectrogram: true, // in case listen should return result.spectrogram
+          probabilityThreshold: 0.75,
+          invokeCallbackOnNoiseAndUnknown: true,
+          overlapFactor: 0.50 // probably want between 0.5 and 0.75. More info in README
+      });
+
+      // Stop the recognition in 5 seconds.
+      // setTimeout(() => recognizer.stopListening(), 5000);
+  }
+
+  console.clear();
+
+// UPDATE: there is a problem in chrome with starting audio context
+//  before a user gesture. This fixes it.
+
+var started = null;
+window.addEventListener('click', () => {
+  if (started) return;
+  started = true;
+  initialize();
+});
+
+
+function initialize() {
+  document.body.querySelector('h1').remove();
+  const CVS = document.body.querySelector('canvas');
+  const CTX = CVS.getContext('2d');
+  const W = CVS.width = window.innerWidth;
+  const H = CVS.height = window.innerHeight;
+
+  const ACTX = new AudioContext();
+  const ANALYSER = ACTX.createAnalyser();
+
+  ANALYSER.fftSize = 4096;
+
+  navigator.mediaDevices.
+  getUserMedia({ audio: true }).
+  then(process);
+
+  function process(stream) {
+    const SOURCE = ACTX.createMediaStreamSource(stream);
+    SOURCE.connect(ANALYSER);
+    const DATA = new Uint8Array(ANALYSER.frequencyBinCount);
+    const LEN = DATA.length;
+    const h = H / LEN;
+    const x = W - 1;
+    CTX.fillStyle = 'hsl(280, 100%, 10%)';
+    CTX.fillRect(0, 0, W, H);
+
+    loop();
+
+    function loop() {
+      window.requestAnimationFrame(loop);
+      let imgData = CTX.getImageData(1, 0, W - 1, H);
+      CTX.fillRect(0, 0, W, H);
+      CTX.putImageData(imgData, 0, 0);
+      ANALYSER.getByteFrequencyData(DATA);
+      for (let i = 0; i < LEN; i++) {
+        let rat = DATA[i] / 255;
+        let hue = Math.round(rat * 120 + 280 % 360);
+        let sat = '100%';
+        let lit = 10 + 70 * rat + '%';
+        CTX.beginPath();
+        CTX.strokeStyle = `hsl(${hue}, ${sat}, ${lit})`;
+        CTX.moveTo(x, H - i * h);
+        CTX.lineTo(x, H - (i * h + h));
+        CTX.stroke();
+      }
+    }
+  }
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/speech-commands@0.4.0/dist/speech-commands.min.js"></script>
+
+<script>
+
+var config = {
+  apiKey: "AIzaSyBwlw_4yhuJVv0TOymMzjS7GR5YFvP4ZU0",
+    authDomain: "speechemo2022.firebaseapp.com",
+    databaseURL: "https://speechemo2022-default-rtdb.firebaseio.com",
+    projectId: "speechemo2022",
+    storageBucket: "speechemo2022.appspot.com",
+    messagingSenderId: "524172084303",
+    appId: "1:524172084303:web:33a8a47ef61fb2d00b163a",
+
+  };
+firebase.initializeApp(config);
+
+var Auth = firebase.auth();
+var dbRef = firebase.database();
+var db = firebase.database();
+var usersRef = dbRef.ref('users')
+  var auth = null;
+  $('#registerForm').on('submit', function (e) {
+    e.preventDefault();
+    $('#registerModal').modal('hide');
+    $('#messageModalLabel').html(spanText('<i class="fa fa-cog fa-spin"></i>', ['center', 'info']));
+    $('#messageModal').modal('show');
+    
+    var data = {
+      email: $('#registerEmail').val(),
+      firstName: $('#registerFirstName').val(), 
+      lastName: $('#registerLastName').val(),
+    };
+
+    var passwords = {
+      password: $('#registerPassword').val(),
+      cPassword: $('#registerConfirmPassword').val(), 
+    }
+    if (data.email != '' && passwords.password != '' && passwords.cPassword != '') {
+      if (passwords.password == passwords.cPassword) {
+        //create the user
+
+        firebase.auth()
+          .createUserWithEmailAndPassword(data.email, passwords.password)
+          .then(function (user) {
+            return user.updateProfile({
+              displayName: data.firstName + ' ' + data.lastName
+            })
+          })
+          .then(function (user) {
+            //now user is needed to be logged in to save data
+            auth = user;
+            //now saving the profile data
+            usersRef.child(user.uid).set(data)
+              .then(function () {
+             
+              })
+            $('#messageModalLabel').html(spanText('Success!', ['center', 'success']))
+            $('#messageModal').modal('hide');
+          })
+          /*
+          .catch(function (error) {
+            $('#messageModalLabel').html(spanText('silahkan login cek data anda ', ['danger'] ))
+            $('#messageModal').modal('hide');
+          });
+
+          */
+      } else {
+        //password and confirm password didn't match
+        $('#messageModalLabel').html(spanText("ERROR: Passwords didn't match", ['danger']))
+      }
+    }
+  });
+
+  //Login
+  $('#loginForm').on('submit', function (e) {
+    e.preventDefault();
+    $('#loginModal').modal('hide');
+
+    $('#messageModalLabel').html(spanText('<i class="fa fa-cog fa-spin"></i>', ['center', 'info']));
+    $('#messageModal').modal('show');
+
+    if ($('#loginEmail').val() != '' && $('#loginPassword').val() != '') {
+      //login the user
+      var data = {
+        email: $('#loginEmail').val(),
+        password: $('#loginPassword').val()
+      };
+      firebase.auth().signInWithEmailAndPassword(data.email, data.password)
+        .then(function (authData) {
+          auth = authData;
+          $('#messageModalLabel').html(spanText('Success!', ['center', 'success']))
+          $('#messageModal').modal('hide');
+          $('#loginModal').modal('hide');
+        })
+        .catch(function (error) {
+
+         $('#messageModalLabel').html(spanText('ERROR: ' + error.code, ['danger']))
+        });
+    }
+  });
+
+  $('#logout').on('click', function (e) {
+    e.preventDefault();
+    firebase.auth().signOut()
+  });
+
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      auth = user;
+      $('body').removeClass('auth-false').addClass('auth-true');
+      usersRef.child(user.uid).once('value').then(function (data) {
+        var info = data.val();
+        if (user.photoUrl) {
+         $('.user-info .user-name').hide();
+        } else if (user.displayName) {
+          $('.user-info').append('<span class="user-name">' + user.displayName + '</span>');
+        } 
+      });
+     
+    } else {
+      $('body').removeClass('auth-true').addClass('auth-false');
+      $('#contacts').html('');
+      auth = null;
+    }
+  });
+  
+function spanText(textStr, textClasses) {
+ var classNames = textClasses.map(c => 'text-' + c).join(' ');
+  return '<span class="' + classNames + '">' + textStr + '</span>';
+  
+}
+
+
+
+
+
+</script>
+<script>
+  function on() {
+    document.getElementById("overlay").style.display = "block";
+  }
+  
+  function off() {
+    document.getElementById("overlay").style.display = "none";
+  }
+  $(function() { $("#mybutton2").click(function (event) { $.getJSON('/Record', { },
+     function(data) { }); return false; }); });
+  </script>
+  
+
+    </body>
+</html>
